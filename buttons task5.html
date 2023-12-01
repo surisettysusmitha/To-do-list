@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<head>
+    <title>To-Do List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items:center;
+            height: 100vh;
+            background-color: #abbcc5;
+        }
+
+        #todo-container {
+            width: 300px;
+            background-color: rgb(157, 18, 18);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(6, 5, 5, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        #task-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .task {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .task-buttons {
+            display: flex;
+        }
+
+        .delete-btn, .edit-btn {
+            margin-left: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .delete-btn {
+            background-color: #371e87;
+            color: white;
+            border: none;
+        }
+
+        .edit-btn {
+            background-color:#325bb2;
+            color: white;
+            border: none;
+        }
+
+        #add-item-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        #new-task {
+            padding: 5px;
+            margin-right: 10px;
+        }
+
+        #add-btn {
+            padding: 5px 10px;
+            cursor: pointer;
+            background-color: #c6baba;
+        }
+    </style>
+</head>
+<body>
+
+<div id="todo-container">
+    <h2>TODO LIST<br></h2>
+
+    <div id="add-item-container">
+        <input type="text" id="new-task" placeholder="Add Item....">
+    </div>
+    <div>
+        <button id="add-btn" onclick="addTask()">Add</button><br><br>
+    </div>
+
+    <ul id="task-list"></ul>
+</div>
+
+<script>
+    const initialTasks = ['Task 1', 'Task 2', 'Task 3'];
+    function renderTasks() {
+        const taskList = document.getElementById('task-list');
+        taskList.innerHTML = '';
+
+        initialTasks.forEach(taskText => {
+            const taskItem = document.createElement('li');
+            taskItem.className = 'task';
+
+            const taskTextElement = document.createElement('span');
+            taskTextElement.innerText = taskText;
+
+            const taskButtons = document.createElement('div');
+            taskButtons.className = 'task-buttons';
+
+            const deleteButton = document.createElement('button');
+            deleteButton.className = 'delete-btn';
+            deleteButton.innerText = 'Delete';
+            deleteButton.addEventListener('click', function () {
+                taskList.removeChild(taskItem);
+            });
+
+            const editButton = document.createElement('button');
+            editButton.className = 'edit-btn';
+            editButton.innerText = 'Edit';
+            editButton.addEventListener('click', function () {
+                const updatedText = prompt('Edit task:', taskText);
+                if (updatedText !== null) {
+                    taskTextElement.innerText = updatedText;
+                }
+            });
+
+            taskButtons.appendChild(deleteButton);
+            taskButtons.appendChild(editButton);
+
+            taskItem.appendChild(taskTextElement);
+            taskItem.appendChild(taskButtons);
+
+            taskList.appendChild(taskItem);
+        });
+    }
+    function addTask() {
+        const newTaskInput = document.getElementById('new-task');
+        const taskText = newTaskInput.value.trim();
+
+        if (taskText !== '') {
+            initialTasks.push(taskText);
+            renderTasks();
+            newTaskInput.value = '';
+        }
+    }
+    renderTasks();
+</script>
+
+</body>
+</html>
